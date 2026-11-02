@@ -1,17 +1,25 @@
 TASK
-  knows (attributes):The scheduler must know the status of everything going on in order to make
-  correct decesions. It must know what it is, when it is, how long it takes, the level of importance
-  is it done, and does it repeat. 
-  does (methods): Just mark itself complete.
+  knows (attributes): description, type (walk/feeding/medication/appointment),
+    date and start time, duration, priority, is_done, recurrence (none/daily/weekly)
+  does (methods): mark_complete(); if it repeats, the next occurrence gets created
 
 PET
-  knows:The pet must know what identifies it and what does it hold. 
-  does:executes the task or hands the task off.
+  knows: name, species, age, list of its tasks
+  does: add_task(task), remove_task(task), get_tasks()
 
 OWNER
-  knows:The owner must know which pet and must be aware of thier own scehdule due to time.
-  does:Executes tasks for pet.
+  knows: name, list of pets, available time per day
+  does: add_pet(pet), get_all_tasks() (collects tasks across all pets)
 
 SCHEDULER
-  knows:Must know everything in relation to time and scheudles for all pets and owner.
-  does:Formulates the scheudle based off of everything collected and factored in.
+  knows: which Owner it is scheduling for (and through the owner, their pets and tasks)
+  does:
+    - get_todays_schedule(): today's tasks sorted by time, then priority
+    - detect_conflicts(): finds tasks whose time ranges overlap
+    - get_pending_tasks(): tasks that are not done yet
+    - handle_recurring(task): when a repeating task is completed, creates the next one
+
+WHERE TASKS LIVE:
+  Tasks live on the Pet, because "walk Max at 8" belongs to Max. The Owner can
+  collect them across pets, and the Scheduler reads them through the Owner,
+  so the Scheduler does not duplicate any data.
