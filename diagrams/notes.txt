@@ -1,0 +1,17 @@
+TASK
+  knows (attributes):The scheduler must know the status of everything going on in order to make
+  correct decesions. It must know what it is, when it is, how long it takes, the level of importance
+  is it done, and does it repeat. 
+  does (methods): Just mark itself complete.
+
+PET
+  knows:The pet must know what identifies it and what does it hold. 
+  does:executes the task or hands the task off.
+
+OWNER
+  knows:The owner must know which pet and must be aware of thier own scehdule due to time.
+  does:Executes tasks for pet.
+
+SCHEDULER
+  knows:Must know everything in relation to time and scheudles for all pets and owner.
+  does:Formulates the scheudle based off of everything collected and factored in.
