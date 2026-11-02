@@ -1,15 +1,46 @@
 classDiagram
-    %% Replace the placeholders below with your actual classes, attributes, methods, and relationships.
     %% Keep this file updated so it matches your final implementation.
+    %% Task.priority values: 1 = high, 2 = medium, 3 = low
+    %% Task.recurrence values: none, daily, weekly
 
-    class ClassName {
-        +type attribute
-        +method() returnType
+    class Owner {
+        +str name
+        +list~Pet~ pets
+        +int available_minutes_per_day
+        +add_pet(pet: Pet) None
+        +get_all_tasks() list~Task~
     }
 
-    class AnotherClass {
-        +type attribute
-        +method() returnType
+    class Pet {
+        +str name
+        +str species
+        +int age
+        +list~Task~ tasks
+        +add_task(task: Task) None
+        +remove_task(task: Task) None
+        +get_tasks() list~Task~
     }
 
-    ClassName --> AnotherClass : relationship
+    class Task {
+        +str description
+        +str type
+        +str pet_name
+        +datetime start_time
+        +int duration_minutes
+        +int priority
+        +bool is_done
+        +str recurrence
+        +mark_complete() None
+    }
+
+    class Scheduler {
+        +Owner owner
+        +get_todays_schedule() list~Task~
+        +detect_conflicts() list~tuple~
+        +get_pending_tasks() list~Task~
+        +handle_recurring(task: Task) Task
+    }
+
+    Owner "1" o-- "0..*" Pet : has
+    Pet "1" *-- "0..*" Task : owns
+    Scheduler "1" --> "1" Owner : schedules for
