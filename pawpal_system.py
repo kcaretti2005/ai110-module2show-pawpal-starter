@@ -14,8 +14,8 @@ class Task:
     recurrence: str = "none"
 
     def mark_complete(self) -> None:
-        pass
-
+        self.is_done = True
+    
 # Task 1 = highest priority, 2 = medium, 3 = low
 # recurrence: "none", "daily", or "weekly"
 @dataclass
@@ -26,13 +26,15 @@ class Pet:
     tasks: list[Task] = field(default_factory=list)
 
     def add_task(self, task: Task) -> None:
-        pass
+        task.pet_name = self.name
+        self.tasks.append(task)
 
     def remove_task(self, task: Task) -> None:
-        pass
+        if task in self.tasks:
+            self.tasks.remove(task)
 
     def get_tasks(self) -> list[Task]:
-        pass
+        return list(self.tasks)
 
 
 @dataclass
@@ -42,10 +44,13 @@ class Owner:
     pets: list[Pet] = field(default_factory=list)
 
     def add_pet(self, pet: Pet) -> None:
-        pass
+        self.pets.append(pet)
 
     def get_all_tasks(self) -> list[Task]:
-        pass
+        all_tasks = []
+        for pet in self.pets:
+            all_tasks.extend(pet.get_tasks())
+        return all_tasks
 
 
 class Scheduler:
@@ -63,3 +68,4 @@ class Scheduler:
 
     def handle_recurring(self, task: Task) -> Task:
         pass
+
