@@ -78,23 +78,21 @@ Confidence level: ★★★★☆ (4/5)
 
 ## 📐 Smarter Scheduling
 
-> Fill in once you've implemented scheduling logic.
-
 | Feature | Method(s) | Notes |
 |---------|-----------|-------|
-| Task sorting | | e.g., by priority, duration |
-| Filtering | | e.g., skip tasks if time runs out |
-| Conflict handling | | e.g., overlapping time slots |
-| Recurring tasks | | e.g., daily vs. weekly |
+| Task sorting | `Scheduler.sort_by_time()` | Sorts by start time, then priority (1 = high) |
+| Filtering | `Scheduler.filter_tasks()`, `Scheduler.get_pending_tasks()` | By pet name and/or completion status |
+| Conflict handling | `Scheduler.detect_conflicts()` | Flags tasks with the exact same start time; returns warning messages instead of crashing |
+| Recurring tasks | `Scheduler.handle_recurring()` | Daily is +1 day, weekly is +7 days; returns None for non-repeating tasks, and the caller adds the new task to the pet |
 
 ## 📸 Demo Walkthrough
 
 Describe your app in numbered steps so a reader can follow along without watching a video:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. Run `streamlit run app.py` to open the app in your browser.
+2. Enter an owner name, a pet name, species and age, then click **Add pet**.
+3. Choose the pet, set a task title, start time, duration, priority and repeat, then click **Add task**. Add two tasks at the same start time.
+4. Click **Generate schedule** to see today's tasks sorted by time, then priority.
+5. A yellow warning appears for the two tasks that start at the same time.
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or link to a demo video here -->
