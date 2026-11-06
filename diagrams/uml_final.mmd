@@ -1,0 +1,51 @@
+classDiagram
+    %% Task.priority values: 1 = high, 2 = medium, 3 = low
+    %% Task.recurrence values: none, daily, weekly
+
+    class Owner {
+        +str name
+        +int available_minutes_per_day
+        +list~Pet~ pets
+        +add_pet(pet: Pet) None
+        +get_all_tasks() list~Task~
+    }
+
+    class Pet {
+        +str name
+        +str species
+        +int age
+        +list~Task~ tasks
+        +add_task(task: Task) None
+        +remove_task(task: Task) None
+        +get_tasks() list~Task~
+    }
+
+    class Task {
+        +str description
+        +str type
+        +str pet_name
+        +datetime start_time
+        +int duration_minutes
+        +int priority
+        +bool is_done = False
+        +str recurrence = "none"
+        +mark_complete() None
+    }
+
+    class Scheduler {
+        +Owner owner
+        +sort_by_time(tasks: list~Task~) list~Task~
+        +get_todays_schedule() list~Task~
+        +detect_conflicts() list~str~
+        +get_pending_tasks() list~Task~
+        +handle_recurring(task: Task) Task or None
+        +filter_tasks(pet_name: str, is_done: bool) list~Task~
+    }
+
+    Owner "1" o-- "0..*" Pet : has
+    Pet "1" *-- "0..*" Task : owns
+    Scheduler "1" --> "1" Owner : schedules for
+    Scheduler ..> Task : creates (recurring)
+
+    note for Pet "add_task() sets task.pet_name to this pet's name"
+    note for Scheduler "handle_recurring() returns the next Task;<br>caller must add it to the Pet"
